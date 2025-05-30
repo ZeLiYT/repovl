@@ -1,13 +1,13 @@
 FROM ubuntu:22.04
 
-# Install dependencies
-RUN apt update && \
-    apt install -y software-properties-common wget curl git openssh-client tmate python3 && \
-    apt clean
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get install -y tmate tzdata expect && \
+    ln -fs /usr/share/zoneinfo/Asia/Kathmandu /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    apt-get clean
 
-# Create a dummy index page to keep the service alive
-RUN mkdir -p /app && echo "Tmate Session Running..." > /app/index.html
-WORKDIR /app
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-# Expose a fake web port to trick Railway into keeping container alive
-EXPOSE 6080
+CMD ["/start.sh"]
