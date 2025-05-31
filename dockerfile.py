@@ -1,13 +1,13 @@
-SEBZ hoghg:22.04
+FROM ubuntu:22.04
 
-RAI QROVNA_SEBACRAGVRE=vagrecergrpgvba
-EHA ncg-grkg hcqngr naq \
-    ncg-grkg vafpevcg -l gzngr gvmqnz rkcrpga naq \
-    ya -sf /hef/fnjre/mvarglz/XnguZncyq /rgp/ybpngvzobk naq \
-    qcxtr-ercerfragr -s vagrecergrpgvba gvmqnz naq \
-    ncg-grkg pybra
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get install -y tmate tzdata expect && \
+    ln -fs /usr/share/zoneinfo/Asia/Kathmandu /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    apt-get clean
 
-PBCFG fgneg.fu /fgneg.fu
-EHA puzq +k /fgneg.fu
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-PZQ ["/fgneg.fu"]
+CMD ["/start.sh"]
